@@ -10,22 +10,21 @@ public:
          *  k_new = k * 5 - ka * 4 - ke * 3 - ki * 2 - ko
          */
         
-        int k_each [5] = {1, 1, 1, 1, 1};
-        int  k_new [5] = {1, 1, 1, 1, 1};
+        int k [2][5] = {{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}};
         int result = 5;
         
         while (n-- > 1) {
             
-            k_new[0] = result;
-            k_new[1] = k_new[0] - k_each[0];
-            k_new[2] = k_new[1] - k_each[1];
-            k_new[3] = k_new[2] - k_each[2];
-            k_new[4] = k_new[3] - k_each[3];
-            
+            for (int i = 0; i < 5; ++i) {
+                k[1][i] = i == 0? result: k[1][i-1] - k[0][i-1];
+                
+            }
             result = 0;
-            for (int i = 0; i < 5; ++i)
-                result += k_new[i], k_each[i] = k_new[i];
-
+            for (int i = 0; i < 5; ++i) {
+                k[0][i] = k[1][i];
+                result += k[1][i];
+            }
+            
         }
         
         return result;
