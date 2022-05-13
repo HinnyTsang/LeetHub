@@ -15,7 +15,7 @@ public:
                 
                 volume += (i - prev.top().second - 1) * (prev.top().first - bot);
                 
-                bot = max(bot, prev.top().first); prev.pop();
+                bot = prev.top().first; prev.pop();
             }    
             
             if (!prev.empty()) {
