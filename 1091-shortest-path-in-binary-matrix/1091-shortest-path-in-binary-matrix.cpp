@@ -29,12 +29,12 @@ public:
         if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
         
         // define
-        auto closed = vector<vector<bool>>(n, vector<bool>(n, false));
+        // auto closed = vector<vector<bool>>(n, vector<bool>(n, false));
         auto cells = vector<vector<Cell>>(n, vector<Cell>(n));
         
         priority_queue<PIII, vector<PIII>, decltype(compare)> open(compare);
         
-        closed[0][0] = true;
+        // closed[0][0] = true;
         cells[0][0].parent={0, 0};
         cells[0][0].g=0;
         cells[0][0].h=(n-1);
