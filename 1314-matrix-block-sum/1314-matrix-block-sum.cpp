@@ -19,12 +19,6 @@ public:
             }
         }
         
-        for (auto& r: pfx) {
-            for (auto& c: r) 
-                cout << c << ", ";
-            cout << endl;
-        }
-        
         for (int r = 1; r <= n; ++r) {
             for (int c = 1; c <= m; ++c) {
                 int i = min(r+k, n);
