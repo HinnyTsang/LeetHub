@@ -7,9 +7,7 @@ public:
         
         int n = g.size(), m = g[0].size();
         
-        if (g[0][0] == 1 || g.back().back() == 1) return 0;
-        
-        g[0][0] = 1;
+        g[0][0] = g[0][0] == 1? 0: 1;
         
         // first row
         for (int c = 1; c < m; ++c) {
