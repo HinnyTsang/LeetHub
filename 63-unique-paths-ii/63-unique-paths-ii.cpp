@@ -1,48 +1,33 @@
+typedef vector<int> vi;
+typedef vector<vi> vii;
+
 class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& g) {
+    int uniquePathsWithObstacles(vii& g) {
         
+        int n = g.size(), m = g[0].size();
         
-        
-        int n = g.size();
-        int m = g[0].size();
-        
-        if (g[0][0] || g[n-1][m-1]) return 0;
+        if (g[0][0] == 1 || g.back().back() == 1) return 0;
         
         g[0][0] = 1;
         
-        // fst col
-        for (int i = 1; i < n; ++i) {
-            if (g[i][0] == 1) {
-                g[i][0] = 0;
-            }
-            else {
-                g[i][0] = g[i-1][0];
-            }
+        // first row
+        for (int c = 1; c < m; ++c) {
+            g[0][c] = g[0][c] == 1? 0: g[0][c-1];
+        }
+        // first col
+        for (int r = 1; r < n; ++r) {
+            g[r][0] = g[r][0] == 1? 0: g[r-1][0];
         }
         
-        // fst row
-        for (int i = 1; i < m; ++i) {
-            if (g[0][i] == 1) {
-                g[0][i] = 0;
-            }
-            else {
-                g[0][i] = g[0][i-1];
-            }
-        }
-        
-        for (int i = 1; i < n; ++i) {
-            for (int j = 1; j < m; ++j) {
-                if (g[i][j] == 1) {
-                    g[i][j] = 0;
-                }
-                else {
-                    g[i][j] = g[i-1][j] + g[i][j-1];
-                }
+        // others.
+        for (int r = 1; r < n; ++r) {
+            for (int c = 1; c < m; ++c) {
+                g[r][c] = g[r][c] == 1? 0: g[r-1][c] + g[r][c-1];
             }
         }
         
         
-        return g[n-1][m-1];
+        return g.back().back();
     }
 };
