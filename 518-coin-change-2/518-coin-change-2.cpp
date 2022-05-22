@@ -1,9 +1,7 @@
 class Solution {
 public:
     int change(int n, vector<int>& coins) {
-        
-        sort(coins.begin(), coins.end());
-        
+                
         vector<int> n_coins(n+1, 0);
         
         // no coin.
