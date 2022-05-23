@@ -1,20 +1,17 @@
 class Solution {
 public:
-    int combinationSum4(vector<int>& nums, int n) {
+    int combinationSum4(vector<int>& nums, int target) {
         
-        sort(nums.begin(), nums.end());
+        vector<unsigned int> dp(target+1, 0);
         
-        vector<unsigned int> n_coins(n+1, 0);
+        dp[0] = 1;
         
-        // no coin.
-        n_coins[0] = 1;
-        
-        for (int i = 1; i <= n ; ++i) {
-            for (int j = 0; j < nums.size() && nums[j] <= i; ++j) {
-                n_coins[i] += n_coins[i - nums[j]];
+        for (int i = 0; i <= target; ++i) {
+            for (int& n: nums ) {
+                if (n <= i) dp[i] += dp[i - n];
             }
         }
         
-        return n_coins.back();
+        return dp.back();
     }
 };
