@@ -19,6 +19,9 @@ public:
         if (!l1) {
             swap(l1, l2);
         }
+        
+        if (!l2 && carry == 0) return l1;
+        
         l1->val += carry;
         if (l2) l1->val += l2->val;
         
