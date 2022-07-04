@@ -1,32 +1,24 @@
 class Solution {
-    int neib [5] = {1, 0, -1, 0, 1};
+private:
+    void dfs(vector<vector<int>>& image, int i, int j, const int &ori, const int &col) {
+        
+        if (i < 0 || j < 0 || i == image.size() || j == image[0].size() || image[i][j] != ori)
+            return;
+        
+        image[i][j] = col;
+        dfs(image, i, j+1, ori, col);
+        dfs(image, i, j-1, ori, col);
+        dfs(image, i+1, j, ori, col);
+        dfs(image, i-1, j, ori, col);
+    }
 public:
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int ori = image[sr][sc];
         
-        int oldColor = image[sr][sc];
-        int nr = image.size(), nc = image[0].size();
+        if (ori == color)
+            return image;
         
-        queue<pair<int, int>> bfs;
-        
-        if (oldColor != newColor) bfs.emplace(sr, sc);
-        
-        while (!bfs.empty()) {
-            int n = bfs.size();
-            while (n--) {
-                auto [i, j] = bfs.front(); bfs.pop();
-                image[i][j] = newColor;
-                
-                for (int k = 0; k < 4; ++k) {
-                    int a = i + neib[k];
-                    int b = j + neib[k+1];
-                    
-                    if (a < 0 || b < 0 || a == nr || b == nc || image[a][b] != oldColor)
-                        continue;
-                    
-                    bfs.emplace(a, b);
-                }
-            }
-        }
+        dfs(image, sr, sc, ori, color);
         
         return image;
     }
