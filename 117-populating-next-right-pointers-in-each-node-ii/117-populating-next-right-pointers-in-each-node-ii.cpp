@@ -19,26 +19,36 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        // O(log(n)) space
-        // O(n) time.
-        queue<Node*> nodes;
         
-        if (root) nodes.push(root);
+        if (!root) return root;
         
-        while (!nodes.empty()) {
-            
-            int n = nodes.size();
-            
-            for (int i = 0; i < n; ++i) {   
-                Node* curr = nodes.front(); nodes.pop();
-                
-                curr->next = i < n - 1? nodes.front() : nullptr;
-                
-                if (curr->left) nodes.push(curr->left);
-                if (curr->right) nodes.push(curr->right);
+        Node* next_head = nullptr;
+        Node* next_work = nullptr;
+        Node* curr = root;
+        
+        while (curr != nullptr) {
+            if (curr->left) {
+                if (!next_head) {
+                    next_head = next_work = curr->left;
+                }
+                else {
+                    next_work->next = curr->left;
+                    next_work = curr->left;
+                }
             }
+            if (curr->right) {
+                if (!next_head) {
+                    next_head = next_work = curr->right;
+                }
+                else {
+                    next_work->next = curr->right;
+                    next_work = curr->right;
+                }
+            }
+            curr = curr->next;
         }
         
+        connect(next_head);
             
         return root;
     }
