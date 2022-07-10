@@ -1,17 +1,14 @@
 class Solution {
 public:
     int maxDistance(vector<int>& colors) {
-        unordered_map<int, int> prev_color;
-        int result = 0;
+        int n = colors.size(), result = 0;
         
-        for (int i = 0; i < colors.size(); ++i) {
-            if (!prev_color.count(colors[i])) {
-                prev_color[colors[i]] = i;
+        for (int i = 0; i < n; ++i) {
+            if (colors[i] != colors.back()) {
+                result = max(result, n - 1 - i);
             }
-
-            for (auto& [color, location]: prev_color) {
-                if (color != colors[i])
-                    result = max(result, i - location);
+            if (colors[i] != colors[0]){
+                result = max(result, i);
             }
         }
         
