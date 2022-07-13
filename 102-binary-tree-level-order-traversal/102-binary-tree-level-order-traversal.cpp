@@ -10,27 +10,30 @@
  * };
  */
 class Solution {
+private:
+    vector<vector<int>> result;
+    
+    void level_order_traversal(TreeNode* root, int level) {
+        if (!root) 
+            return;
+        
+        if (result.size() == level) 
+            result.push_back({root->val});
+        else
+            result[level].push_back(root->val);
+        
+        level_order_traversal(root->left, level + 1);
+        
+        level_order_traversal(root->right, level + 1);
+    }
+    
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        queue<TreeNode*> bfs;
-        vector<vector<int>> res;
-        if (root) bfs.push(root);
         
-        while (!bfs.empty()) {
-            int n = bfs.size();
-            res.push_back(vector<int>(n,0));
-            
-            for (int i = 0; i < n; ++i) {
-                TreeNode* curr = bfs.front(); bfs.pop();
-                
-                res.back()[i] = curr->val;
-                
-                if (curr->left) bfs.push(curr->left);
-                if (curr->right) bfs.push(curr->right);               
-            }
-            
-        }
+        result = {};
         
-        return res;
+        level_order_traversal(root, 0);
+        
+        return result;
     }
 };
