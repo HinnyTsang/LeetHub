@@ -3,8 +3,8 @@ public:
     int kInversePairs(int N, int K) {
 
         const int MOD = 1e9 + 7;
-        int dp[1001][1001] = { 1 };
-        
+        int dp[1001][1001] = { };
+        dp[0][0] = 1;
         /**
          *    0 1 2 3 4
          *  1 1 
