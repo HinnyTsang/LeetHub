@@ -10,24 +10,32 @@
  * };
  */
 class Solution {
+    
 private:
+    
     bool result;
-    int recursion(TreeNode* root) {
-        if (!root || !result) {
-            return 0;
-        }
-        int l = recursion(root->left);
-        int r = recursion(root->right);
+    
+    int helper(TreeNode* root) {
+        if (!root || !result) return 0;
         
-        if (abs(r - l) > 1) {
+        int l = helper(root->left);
+        int r = helper(root->right);
+        
+        if (abs(l - r) > 1) {
             result = false;
+            return -1;
         }
+        
         return max(l, r) + 1;
     }
 public:
+    
     bool isBalanced(TreeNode* root) {
+        
         result = true;
-        recursion(root);
+        
+        helper(root);
+        
         return result;
     }
 };
