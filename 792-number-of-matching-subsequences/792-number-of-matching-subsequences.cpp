@@ -9,10 +9,15 @@ private:
         int idx = hash[word[0] - 'a'][0];
         
         for (int i = 1; i < word.size(); ++i) {
-            if (hash[word[i] - 'a'].size() == 0)
+            
+            auto& curr = hash[word[i] - 'a'];
+            
+            if (curr.size() == 0)
                 return false;
-            auto lower = lower_bound(hash[word[i] - 'a'].begin(), hash[word[i] - 'a'].end(), idx + 1);
-            if (lower == hash[word[i] - 'a'].end())
+            
+            auto lower = lower_bound(curr.begin(), curr.end(), idx + 1);
+            
+            if (lower == curr.end())
                 return false;
             
             idx = *lower;
