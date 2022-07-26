@@ -1,38 +1,42 @@
 class Solution {
 private:
-    bool is_subset(unordered_map<char, int>& all, unordered_map<char, int>& sub) {
-        for (auto& [key, val]: all) {
-            if (!sub.count(key) || sub[key] < val)
+    bool matched(unordered_map<char, int>& a, unordered_map<char, int>& b) {
+        
+        for (auto& [key, cnt]: b) {
+            if (a[key] < cnt)
                 return false;
         }
+        
         return true;
     }
 public:
     string minWindow(string s, string t) {
-        if (t.size() > s.size()) return "";
         
-        unordered_map<char, int> wct, window;
-        int l = 0, r = 0, min_length = INT_MAX, start = -1;
         
-        for (auto& c: t) {
-            ++wct[c];
-        }
+        string result;
+        unordered_map<char, int> char_count;        
+        unordered_map<char, int> to_check;        
+        int l = 0, r = 0, len = INT_MAX;
         
-        for (;r < s.size(); ++r) {
-            ++window[s[r]];
+        if (t.size() > s.size()) return result;
+        
+        for (char& c: t) ++to_check[c];
+        
+        for (int r = 0; r < s.size(); ++r) {
             
-            if (wct.count(s[r]) && is_subset(wct, window)) {
-                while (!wct.count(s[l]) || window[s[l]] > wct[s[l]]) {
-                    --window[s[l++]];
-                }
-                int len = r - l + 1;
-                if (len < min_length) {
-                    min_length = len;
-                    start = l;
-                }
+            ++char_count[s[r]];
+            
+            while (l <= r && char_count[s[l]] > to_check[s[l]]) {
+                --char_count[s[l++]];
+            }
+            
+            if (matched(char_count, to_check) && r - l + 1 < len) {
+                result = s.substr(l, r - l + 1);
+                len = r - l + 1;
             }
         }
         
-        return start == -1? "": s.substr(start, min_length);
+        return result;
+        
     }
 };
