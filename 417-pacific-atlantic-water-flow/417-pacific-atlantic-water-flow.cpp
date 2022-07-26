@@ -1,57 +1,50 @@
 class Solution {
 private:
-    int neib [5] = {-1, 0, 1, 0, -1};
-    
-    void dfs(vector<vector<bool>>& sea, vector<vector<int>>& h, int i, int j) {
-        
-        if (sea[i][j] == true) return;
-        
-        sea[i][j] = true;
+    int *neig;
+    void dfs(vector<vector<int>>& heights, vector<vector<int>>& ocean, int i, int j) {
+
+        ocean[i][j] = 2;
         
         for (int k = 0; k < 4; ++k) {
+            int a = i + neig[k];
+            int b = j + neig[k + 1];
         
-            int a = i + neib[k];
-            int b = j + neib[k + 1];
-            
-            if (a < 0 || b < 0 || a == h.size() || b == h[0].size())
+            if (a < 0 || b < 0 || a >= heights.size() || b >= heights[0].size() || ocean[a][b] == 2)
                 continue;
             
-            else if (h[a][b] < h[i][j])
+            if (heights[a][b] < heights[i][j])
                 continue;
             
-            dfs(sea, h, a, b);
+            dfs(heights, ocean, a, b);
         }
     }
-    
 public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        int m = heights.size(), n = heights[0].size();
         
-        vector<vector<bool>> pac(m, vector<bool>(n)), atl(m, vector<bool>(n));
+        neig = new int []{-1, 0, 1, 0, -1};
         
-        vector<vector<int>> res;
+        int n = heights.size();
+        int m = heights[0].size();
         
-        // first, last col
-        for (int i = 0; i < m; ++i) {
-            dfs(pac, heights, i, 0);
-            dfs(atl, heights, i, n-1);
+        vector<vector<int>> pac(n, vector<int>(m, 0)), atl(n, vector<int>(m, 0));
+        vector<vector<int>> result;
+        
+        for (int i = 0; i < n; ++i) {
+            dfs(heights, pac, i, 0);
+            dfs(heights, atl, i, m-1);
         }
-        cout << "pass 1" << endl;
-        // first, last row
-        for (int j = 0; j < n; ++j) {
-            dfs(pac, heights, 0, j);
-            dfs(atl, heights, m-1, j);
+        for (int j = 0; j < m; ++j) {
+            dfs(heights, pac, 0, j);
+            dfs(heights, atl, n-1, j);
         }
-        cout << "pass 2" << endl;
         
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (pac[i][j] && atl[i][j]){
-                    res.push_back({i, j});
-                }
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (pac[i][j] == 2 && atl[i][j] == 2)
+                    result.push_back({i, j});
             }
         }
         
-        return res;
+        return result;
     }
 };
