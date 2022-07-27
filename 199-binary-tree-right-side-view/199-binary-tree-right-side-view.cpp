@@ -10,31 +10,21 @@
  * };
  */
 class Solution {
+private:
+    void recursion(vector<int>& result, TreeNode* p, int level) {
+        if (!p)
+            return;
+        if (result.size() < level)
+            result.push_back(p->val);
+        
+        recursion(result, p->right, level + 1);
+        recursion(result, p->left, level + 1);
+    }
 public:
     vector<int> rightSideView(TreeNode* root) {
         vector<int> result;
         
-        deque<TreeNode*> bfs;
-        
-        if (root) bfs.push_back(root);
-        
-        while (!bfs.empty()) {
-            
-            result.push_back(bfs.back()->val);
-            
-            int n = bfs.size();
-            
-            while (n-- > 0) {
-                TreeNode* curr = bfs.front();
-                bfs.pop_front();
-                
-                if (curr->left) 
-                    bfs.push_back(curr->left);
-                if (curr->right) 
-                    bfs.push_back(curr->right);
-                
-            }
-        }
+        recursion(result, root, 1);
         
         return result;
     }
