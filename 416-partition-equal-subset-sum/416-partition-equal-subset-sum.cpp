@@ -9,17 +9,15 @@ public:
         
         sum /= 2;
         
-        vector<vector<bool>> dp(n + 1, vector<bool>(sum + 1, false));
-        dp[0][0] = true;
+        vector<bool> dp(sum + 1, false);
+        dp[0] = true;
         
         for (int i = 1; i <= n; ++i) {
-            for (int j = sum; j >= 0; --j) {
-                dp[i][j] = dp[i - 1][j];
-                if (j >= nums[i-1])                
-                    dp[i][j] = dp[i][j] | dp[i - 1][j - nums[i-1]];
+            for (int j = sum; j >= nums[i-1]; --j) {
+                dp[j] = dp[j] | dp[j - nums[i-1]];                
             }
         }
         
-        return dp[n][sum];
+        return dp.back();
     }
 };
